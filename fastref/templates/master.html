@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Fast Reference Cheat Sheet">
+    <meta name="keywords" content="fast reference, cheat sheet, coding reference">
+    <meta name="author" content="Neel Moradiya">
+    <meta name="language" content="English">
+    <meta name="distribution" content="global">
+    <meta name="og:title" content="Fast Reference Cheat Sheet">
+    <meta name="og:description" content="Fast Reference Cheat Sheet">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <link rel="stylesheet" href="{% static 'mycss.css' %}">
+</head>
+
+<body>
+    <header class="text-white">
+        <div class="container pb-3">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="navbar" aria-label="Site Navigation">
+                        <a href="/" class="navbar-brand text-white">
+                            <img src="{% static 'logo.png' %}" alt="FastRef.ME Logo" loading="lazy">
+                            <span class="fw-bold main-title">FastRef.ME</span>
+                        </a>
+                        <!-- <button type="button" class="btn text-white" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path
+                                    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                            </svg>&nbsp;
+                            Search for cheatsheat&nbsp;
+                            <kbd>Ctrl + Q</kbd>
+                        </button>
+                        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <form role="search" method="POST" action="search">
+                                    {% csrf_token %}
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                                            id="myInput" onkeyup="myFunction()">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul id="myUL" style="display: none;">
+                                                <li><a href="#">Adele</a></li>
+                                                <li><a href="#">Agnes</a></li>
+                            
+                                                <li><a href="#">Billy</a></li>
+                                                <li><a href="#">Bob</a></li>
+                            
+                                                <li><a href="#">Calvin</a></li>
+                                                <li><a href="#">Christina</a></li>
+                                                <li><a href="#">Cindy</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button class="btn btn-outline-success" type="submit">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> -->
+                    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-white py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 text-md-end">
+                    <p class="lead">&copy; {% now "Y" %} FastRef.ME, All rights reserved.</p>
+                </div>
+                <div class="col-md-5">
+                    <p class="lead"><a href="/feedback_form" target="_blank" class="text-white">Send Feedback</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" defer></script>
+    <!-- Make sure to include the jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function myFunction() {
+            var input = $('#myInput');
+            console.log(input)
+            var filter = input.val().trim().toUpperCase();
+            console.log(filter)
+            var ul = $('#myUL');
+            console.log(ul)
+            var li = ul.find('li');
+            console.log(li)
+
+            if (filter === '') {
+                ul.hide();
+                return;
+            }
+
+            ul.empty();
+
+            li.each(function () {
+                var listItem = $(this);
+                var a = listItem.find("a").eq(0);
+                var txtValue = a.text() || a[0].innerText;
+
+                if (txtValue.toUpperCase().includes(filter)) {
+                    listItem.show();
+                    ul.append(listItem.clone());
+                } else {
+                    listItem.hide();
+                }
+            });
+
+            ul.show();
+        }
+    
+        $(document).keydown(function (e) {
+            if (e.ctrlKey && e.key === 'q') {
+                e.preventDefault();
+                $('#searchModal').modal('show');
+            }
+        });
+    </script>
+    
+</body>
+
+</html>

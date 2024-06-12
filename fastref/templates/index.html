@@ -1,0 +1,96 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    FastRef.ME - Fast Reference Cheat Sheet
+{% endblock %}
+
+{% block content %}
+                    <div class="text-center my-3">
+                        <h1 class="fw-bold">Fast Reference</h1>
+                        <p class="subtitle">Presented below are a selection of concise reference sheets for your
+                            swift access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="text-white bg-dark pb-4" aria-label="Categories">
+        <div class="container py-3">
+            <h2 class="heading" id="heading1"></h2>
+            <div class="row" id="category1"></div>
+        </div>
+
+        <div class="container py-3">
+            <h2 class="heading" id="heading2"></h2>
+            <div class="row" id="category2"></div>
+        </div>
+
+        <div class="container pt-4 pb-4">
+            <h2 class="heading" id="heading3"></h2>
+            <div class="row" id="category3"></div>
+        </div>
+
+        <div class="container py-3">
+            <h2 class="heading" id="heading4"></h2>
+            <div class="row" id="category4"></div>
+        </div>
+
+        <div class="container py-3">
+            <h2 class="heading" id="heading5"></h2>
+            <div class="row" id="category5"></div>
+        </div>
+
+        <div class="container py-3">
+            <h2 class="heading" id="heading6"></h2>
+            <div class="row" id="category6"></div>
+        </div>
+
+        <div class="container pt-3">
+            <h2 class="heading" id="heading7"></h2>
+            <div class="row" id="category7"></div>
+        </div>        
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Parse JSON data for categories and languages
+            var categoryData = JSON.parse("{{ category_data | escapejs }}");
+            var languageData = JSON.parse("{{ language_data | escapejs }}");
+
+            var headings = ['', 'heading1', 'heading2', 'heading3', 'heading4', 'heading5', 'heading6', 'heading7'];  // Heading IDs
+            var categories = ['', 'category1', 'category2', 'category3', 'category4', 'category5', 'category6', 'category7'];  // Category IDs
+
+            categoryData.forEach(function (element) {
+                var heading = `${element['language_name']}`;  // Create a heading based on language name
+                $(`#${headings[element['id'] || 0]}`).append(heading);  // Append the heading to the corresponding section
+            });
+
+            languageData.forEach(function (element) {
+                // console.log("element=",element);
+
+                var card = `<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                <a href="/content/${element['id']}" class="card-link text-decoration-none">
+                                    <div class="card ${element['bg_color']} text-white hc">
+                                        <div class="card-body">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        ${element['logo']}
+                                                    </div>
+                                                    <div class="col-10">
+                                                        ${element['name']}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>`;  // The card for each language element
+
+                $(`#${categories[element['category_id'] || 0]}`).append(card);  // Append the card to the corresponding category container
+            });
+        });
+    </script>
+{% endblock %}

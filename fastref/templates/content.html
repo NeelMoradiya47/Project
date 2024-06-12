@@ -1,0 +1,54 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    {{page_title}} Cheat Sheet & Fast Reference
+{% endblock %}
+
+{% block content %}
+                    <div class="text-center my-3">
+                        <h1 class="fw-bold">
+                            <span id="cheat_sheet_name"></span>
+                            <span>Cheat Sheet</span>
+                        </h1>
+                        <p class="subtitle" id="cheat_sheet_description"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <link rel="stylesheet" href="{% static 'mystyle.css' %}">
+    </header>
+
+
+    <section class="text-white bg-dark">
+        <div class="container-fluid">
+            <div class="row px-3 pb-3" id="content"></div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Parse the JSON data for language
+            var languageData = JSON.parse("{{ language_data | escapejs }}");
+
+            var cheatSheetName = '';
+            var cheatSheetDescription = '';
+            var cheatSheetContent = '';
+
+            languageData.forEach(function (element) {
+                var name = `${element['name']}`;
+                var description = `${element['description']}`;
+                var content = `${element['html']}`;
+
+                cheatSheetName = name;
+                cheatSheetDescription = description;
+                cheatSheetContent = content;
+            });
+
+            $("#cheat_sheet_name").html(cheatSheetName);  // Populates the cheat sheet name
+            $("#cheat_sheet_description").html(cheatSheetDescription);  // Populates the cheat sheet description
+            $("#content").html(cheatSheetContent);  // Populates the cheat sheet content(html)
+        });
+    </script>
+{% endblock %}
